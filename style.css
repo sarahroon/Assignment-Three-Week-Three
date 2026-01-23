@@ -1,5 +1,5 @@
 body {
-    font-family: Calibri;
+    font-family: Calibri, Arial;
     text-align: center;
     background-color: #F5E6C8;
     margin-top: 100px;
@@ -13,22 +13,14 @@ h2 {
     font-size: 1rem;
 }
 
-#cookieButton {
-    font-size: 0.5rem;
-    padding: 20px 40px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: #A97142;
-    color: white;
-}
-
-#cookieButton:hover {
-    background-color: #BC8656;
-}
-
 button {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
+    padding: 12px 20px;
+    font-size: 12px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#upgradeButton: disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
