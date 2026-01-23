@@ -1,18 +1,20 @@
 let cookies = 0;
 let upgrades = [];
+let cps = 0;
+let clickPower = 1;
 
 const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
 
 cookieButton.addEventListener("click", () => {
-    cookies++;
+    cookies+= clickPower;
     updateUI();
 });
 
 setInterval(() => {
-    cookies++;
+    cookies+= cps;
     updateUI();
-}, 1000)
+}, 1000);
 
 async function fetchData() {
     try {
@@ -27,11 +29,10 @@ async function fetchData() {
            console.warn("Upgrade data is invalid: API response did not contain an array `upgrades`.", data);
          }
 
-     renderUpgrades();
+         renderUpgrades();
         
  } catch (err) {
     console.error("Failed to load upgrades", err);
-
     upgrades = [];
     renderUpgrades();
  }
@@ -53,13 +54,19 @@ function buyUpgrade(upgrade) {
     if (cookies < upgrade.cost) return;
 
     cookies -= upgrade.cost;
+
+    if (upgrade.type === "cps") {
+        cps += upgrade.value;
+    } else if (upgrade.type === "click") {
+        clickPower += upgrade.value;
+    }
+
     console.log("Applying upgrade:", upgrade.id);
     updateUI();
 }
 
 function updateUI() {
-const cookieCountDisplay = document.getElementById("cookieCount");
-  cookieCountDisplay.textContent = cookies;
+       cookieCount.textContent = cookies;
 }
 
 fetchData();
