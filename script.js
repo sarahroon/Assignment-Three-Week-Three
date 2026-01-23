@@ -1,11 +1,9 @@
 let cookies = 0;
-let cps = 0;
-let upgrade = null;
-let clickPower = 1;
+let upgrades = [];
 
 const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
-const upgradeButton = document.getElementById("upgradeButton");
+const upgradesDiv = document.getElementById("upgrades");
 
 cookieButton.addEventListener("click", () => {
     cookies+= clickPower;
@@ -17,20 +15,37 @@ setInterval(() => {
     updateUI();
 }, 1000);
 
-async function fetchData() {
+async function fetchUpgrades() {
     try {
-        const res = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
-        const data = await res.json();
+        const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
+        const data = await response.json();
 
-        if (data.upgrades && data.upgrades.length > 0) {
-            upgrade = data.upgrades[0];
-            upgradeButton.textContent = `${upgrade.name} (${upgrade.cost}
-            upgradeButton.disabled = false;
+        if (Array.isArray(data.upgrades)) {
+            upgrades = data.upgrades;
+            renderUpgrade();
         }
-    } catch (err) {
-         console.error("Failed to load upgrade", err);
+    } catch (error) {
+         console.error("Error fetching upgrades:", error);
     }
 }
+
+function renderUpgrade() {
+    const upgrade = upgrades[0];
+    const button = document.createElement("button");
+
+    button.textContent = ${upgrade.name} (+${upgrade.value} cookies)
+
+    button.addEventListener("click", () => {
+        if (cookies >= upgrade.cost) {
+            cookies += upgrade.value;
+            updateUI();
+        }
+    });
+
+    upgradesDiv.appendChild(button);
+}
+
+fetchUpgrades();
 
 upgradeButton.addEventListener("click", () => {
    if (!upgrade) return;
