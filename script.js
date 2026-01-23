@@ -24,7 +24,7 @@ async function fetchUpgrades() {
 
         if (Array.isArray(data.upgrades)) {
             upgrades = data.upgrades;
-            renderUpgrade();
+            renderUpgrades();
         }
     } catch (error) {
          console.error("Error fetching upgrades:", error);
@@ -41,13 +41,9 @@ function renderUpgrades() {
        button.addEventListener("click", () => {
            if (cookies < upgrade.cost) return;
 
-           cookies -= upgrade.cost,
+           cookies -= upgrade.cost;
 
-           if (upgrade.type === "cps") {
-               cps += upgrade.value;
-           } else {
-               clickPower += upgrade.value;
-           }
+           cps += upgrade.value;
 
            updateUI();
        });
