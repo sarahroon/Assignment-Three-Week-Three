@@ -24,7 +24,7 @@ async function fetchData() {
         if (data && Array.isArray(data.upgrades)) {
             upgrades = data.upgrades;
         } else {
-           console.warn("Upgrade data is invalid: API response did not contain an array 'upgrades'.", data);");
+           console.warn("Upgrade data is invalid: API response did not contain an array `upgrades`.", data);");
          }
 
      renderUpgrades();
