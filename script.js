@@ -21,6 +21,7 @@ async function fetchUpgrades() {
     try {
         const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
         const data = await response.json();
+        console.log(data);
 
         if (Array.isArray(data.upgrades)) {
             upgrades = data.upgrades;
