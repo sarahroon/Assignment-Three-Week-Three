@@ -37,7 +37,6 @@ async function fetchUpgrades() {
     } catch (error) {
          console.error("Error fetching upgrades:", error);
     }
-}
 
 function renderUpgrades() {
    upgradesDiv.innerHTML = "";
