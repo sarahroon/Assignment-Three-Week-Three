@@ -33,8 +33,8 @@ async function fetchUpgrades() {
         if (Array.isArray(data.upgrades)) {
             upgrades = data.upgrades;
             renderUpgrades();
-        }
-    } catch (error) {
+        
+     } catch (error) {
          console.error("Error fetching upgrades:", error);
     }
 
