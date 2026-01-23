@@ -58,7 +58,8 @@ function buyUpgrade(upgrade) {
 }
 
 function updateUI() {
-    cookieCountDisplay.textContent = cookies;
+const cookieCountDisplay = document.getElementById("updates");
+  cookieCountDisplay.textContent = cookies;
 }
 
 fetchData();
