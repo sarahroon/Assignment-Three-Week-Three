@@ -2,7 +2,7 @@ body {
     font-family: Calibri, Arial;
     text-align: center;
     background-color: #F5E6C8;
-    margin-top: 100px;
+    padding: 50px;
 }
 
 h1 {
@@ -14,13 +14,12 @@ h2 {
 }
 
 button {
-    padding: 12px 20px;
-    font-size: 12px;
+    padding: 10px 18px;
     margin: 10px;
+    font-size: 12px;
     cursor: pointer;
 }
 
-#upgradeButton: disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+#upgrades {
+    margin-top: 10px;
 }
