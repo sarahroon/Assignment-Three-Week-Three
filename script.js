@@ -1,4 +1,6 @@
 let cookies = 0;
+let cps = 0;
+let clickPower = 1;
 let upgrades = [];
 
 const cookieCount = document.getElementById("cookieCount");
@@ -29,36 +31,33 @@ async function fetchUpgrades() {
     }
 }
 
-function renderUpgrade() {
-    const upgrade = upgrades[0];
-    const button = document.createElement("button");
+function renderUpgrades() {
+   upgradesDiv.innerHTML = "";
 
-    button.textContent = ${upgrade.name} (+${upgrade.value} cookies)
+   upgrades.forEach(upgrade => {
+       const button = document.createElement("button");
+       button.textContent = `${upgrade.name} (${upgrade.cost} cookies)`;
 
-    button.addEventListener("click", () => {
-        if (cookies >= upgrade.cost) {
-            cookies += upgrade.value;
-            updateUI();
-        }
-    });
+       button.addEventListener("click", () => {
+           if (cookies < upgrade.cost) return;
 
-    upgradesDiv.appendChild(button);
+           cookies -= upgrade.cost,
+
+           if (upgrade.type === "cps") {
+               cps += upgrade.value;
+           } else {
+               clickPower += upgrade.value;
+           }
+
+           updateUI();
+       });
+
+       upgradesDiv.appendChild(button);
+   });
+}
+
+function updateUI() {
+    cookieCount.textContent = Math.floor(cookies);
 }
 
 fetchUpgrades();
-
-upgradeButton.addEventListener("click", () => {
-   if (!upgrade) return;
-   if (cookies < upgrade.cost) return;
-
-   cookies -= upgrade.cost;
-   cps += 1;
-   updateUI();
-});
-
-function updateUI() {
-     cookieCount.textContent = cookies;
-}
-
-fetchUpgrade();
-       
