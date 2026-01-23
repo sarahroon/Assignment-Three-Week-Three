@@ -19,17 +19,21 @@ async function fetchData() {
         const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
         const data = await response.json();
 
+        upgrades = [];
+
         if (data && Array.isArray(data.upgrades)) {
             upgrades = data.upgrades;
         } else {
-           console.warn("Upgrade data is invalid");
-           upgrades = [];
+           console.warn("Upgrade data is invalid: API response did not contain an array 'upgrades'.", data);");
          }
 
      renderUpgrades();
         
  } catch (err) {
     console.error("Failed to load upgrades", err);
+
+    upgrades = [];
+    renderUpgrades();
  }
 }
 
@@ -58,8 +62,3 @@ function updateUI() {
 }
 
 fetchData();
-
-
-
-
-    c
