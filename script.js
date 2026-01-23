@@ -6,12 +6,12 @@ const cookieButton = document.getElementById("cookieButton");
 
 cookieButton.addEventListener("click", () => {
     cookies++;
-    cookieCount.textContent = cookies;
+    updateUI();
 });
 
-setInterval(function() {
-    cookieCount++;
-    cookieCountDisplay.innerText = cookieCount
+setInterval(() => {
+    cookies++;
+    updateUI();
 }, 1000)
 
 async function fetchData() {
@@ -36,13 +36,17 @@ function renderUpgrades() {
     container.appendChild(button);
    });
 }
-function buyUpgrade(upgrade) {
-    console.log("Applying upgrade:", upgrade.id);
 
+function buyUpgrade(upgrade) {
+    if (cookies < upgrade.cost) return;
+
+    cookies -= upgrade.cost;
+    console.log("Applying upgrade:", upgrade.id);
+    updateUI();
 }
 
 function updateUI() {
-    document.getElementById("cookie-count").textContent = `${cookies} cookies`;
+    cookieCountDisplay.textContent = cookies;
 }
 
-loadUpgrades();
+fetchData();
