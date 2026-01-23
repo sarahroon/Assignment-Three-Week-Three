@@ -18,22 +18,31 @@ async function fetchData() {
     try {
         const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
         const data = await response.json();
-    }
 
-if (data && Array.isArray(data.upgrades)) {
-    upgrades = data.upgrades;
-} else {
-
-  console.warn
-
-    upgrades = [];
-    
-}
+        if (data && Array.isArray(data.upgrades)) {
+            upgrades = data.upgrades;
+        } else {
+           console.warn("Upgrade data is invalid");
+           upgrades = [];
+         }
 
      renderUpgrades();
+        
  } catch (err) {
     console.error("Failed to load upgrades", err);
  }
+}
+
+function renderUpgrades() {
+    const container = document.getElementById("upgrades");
+    container.innerHTML = "";
+
+    upgrades.forEach(upgrade => {
+        const button = document.createElement("button");
+        button.textContent = `${upgrade.name} (${upgrade.cost} cookies)`;
+        button.onclick = () => buyUpgrade(upgrade);
+        container.appendChild(button);
+    });
 }
 
 function buyUpgrade(upgrade) {
@@ -44,13 +53,13 @@ function buyUpgrade(upgrade) {
     updateUI();
 }
 
-    const cookieCountDisplay = document.getElementById(`cookie-count`);
-
-    function updateUI() {
-
-        cookieCountDisplay.textContent = 'New Count';
-
-    }
+function updateUI() {
+    cookieCountDisplay.textContent = cookies;
 }
 
 fetchData();
+
+
+
+
+    c
