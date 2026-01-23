@@ -1,9 +1,22 @@
 let cookies = 0;
 let upgrades = [];
 
-async function loadUpgrades() {
+const cookieCount = document.getElementById("cookieCount");
+const cookieButton = document.getElementById("cookieButton");
+
+cookieButton.addEventListener("click", () => {
+    cookies++;
+    cookieCount.textContent = cookies;
+});
+
+setInterval(function() {
+    cookieCount++;
+    cookieCountDisplay.innerText = cookieCount
+}, 1000)
+
+async function fetchData() {
     try {
-        const response = await fetch("https://api.cookieclickergame.com/upgrades");
+        const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
         const data = await response.json();
         upgrades = data.upgrades;
         renderUpgrades();
@@ -33,11 +46,3 @@ function updateUI() {
 }
 
 loadUpgrades();
-
-const cookieCount = document.getElementById("cookieCount");
-const cookieButton = document.getElementById("cookieButton");
-
-cookieButton.addEventListener("click", () => {
-    cookies++;
-    cookieCount.textContent = cookies;
-});
