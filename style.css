@@ -1,1 +1,24 @@
+body {
+    font-family: Calibri, Arial;
+    text-align: center;
+    background-color: #F5E6C8;
+    margin-top: 100px;
+}
 
+h1 {
+    font-size: 1rem;
+}
+
+#cookieButton {
+    font-size: 0.5rem;
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #A97142;
+    color: white;
+}
+
+#cookieButton:hover {
+    background-color: #BC8656;
+}
