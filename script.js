@@ -8,59 +8,53 @@ const cookieButton = document.getElementById("cookieButton");
 const upgradesDiv = document.getElementById("upgrades");
 
 cookieButton.addEventListener("click", () => {
-    cookies+= clickPower;
-    updateUI();
+  cookies += clickPower;
+  updateUI();
 });
 
 setInterval(() => {
-    cookies+= cps;
-    updateUI();
+  cookies += cps;
+  updateUI();
 }, 1000);
 
 async function fetchUpgrades() {
-    try {
-        const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
-        const data = await response.json();
+  try {
+    const response = await fetch(
+      "https://cookie-upgrade-api.vercel.app/api/upgrades",
+    );
+    const data = await response.json();
 
-        upgrades = Array.isArray(data) ? data : data.upgrades;
+    upgrades = Array.isArray(data) ? data : data.upgrades;
 
-        renderUpgrades();
-    } catch (error) {
-        console.error("Error fetching upgrades:", error);
-    }
+    renderUpgrades();
+  } catch (error) {
+    console.error("Error fetching upgrades:", error);
+  }
 }
 
-        if (Array.isArray(data.upgrades)) {
-            upgrades = data.upgrades;
-            renderUpgrades();
-        
-     } catch (error) {
-         console.error("Error fetching upgrades:", error);
-    }
-
 function renderUpgrades() {
-   upgradesDiv.innerHTML = "";
+  upgradesDiv.innerHTML = "";
 
-   upgrades.forEach(upgrade => {
-       const button = document.createElement("button");
-       button.textContent = `${upgrade.name} (${upgrade.cost} cookies)`;
+  upgrades.forEach((upgrade) => {
+    const button = document.createElement("button");
+    button.textContent = `${upgrade.name} (${upgrade.cost} cookies)`;
 
-       button.addEventListener("click", () => {
-           if (cookies < upgrade.cost) return;
+    button.addEventListener("click", () => {
+      if (cookies < upgrade.cost) return;
 
-           cookies -= upgrade.cost;
+      cookies -= upgrade.cost;
 
-           cps += upgrade.value;
+      cps += upgrade.value;
 
-           updateUI();
-       });
+      updateUI();
+    });
 
-       upgradesDiv.appendChild(button);
-   });
+    upgradesDiv.appendChild(button);
+  });
 }
 
 function updateUI() {
-    cookieCount.textContent = Math.floor(cookies);
+  cookieCount.textContent = Math.floor(cookies);
 }
 
 fetchUpgrades();
