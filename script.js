@@ -14,6 +14,12 @@ const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
 const upgradesDiv = document.getElementById("upgrades");
 
+function gameTick() {
+  gameState.cookies += gameState.cps;
+  updateUI();
+  saveGame();
+}
+
 setInterval(() => {
   cookies += cps;
   updateUI();
@@ -119,12 +125,6 @@ function saveGame() {
 
 function updateUI() {
   cookieCount.textContent = Math.floor(gameState.cookies);
-}
-
-function gameTick() {
-  gameState.cookies += gameState.cps;
-  updateUI();
-  saveGame();
 }
 
 setInterval(gameTick, 1000);
