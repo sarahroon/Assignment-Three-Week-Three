@@ -38,10 +38,10 @@ function renderUpgrades() {
       if (cookies < upgrade.cost) return;
 
       cookies -= upgrade.cost;
-
       cps += upgrade.value;
 
       updateUI();
+      saveGame();
     });
 
     upgradesDiv.appendChild(button);
