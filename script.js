@@ -86,3 +86,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadGame();
   updateUI();
 });
+
+setInterval(saveGame, 5000);
