@@ -88,3 +88,35 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 setInterval(saveGame, 5000);
+
+const gameState = {
+  cookies: 0,
+  cookiesPerSecond: 1
+};
+
+const cookieCountEl = document.getElementById("cookie-count");
+
+function loadGame() {
+  const saved = localStorage.getItem("cookieGame");
+  if (saved) {
+    Object.assign(gameState, JSON.parse(saved));
+  }
+}
+
+function saveGame() {
+  localStorage.setItem("cookieGame", JSON.stringify(gameState));
+}
+
+function updateUI() {
+  cookieCountEl.textContent = Math.floor(gameState.cookies);
+}
+
+function gameTick() {
+  gameState.cookies += gameState.cookiesPerSecond;
+  updateUI();
+  saveGame();
+}
+
+loadGame();
+updateUI();
+setInterval(gameTick, 1000);
