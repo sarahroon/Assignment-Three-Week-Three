@@ -15,30 +15,29 @@ setInterval(() => {
 async function fetchUpgrades() {
   try {
     const response = await fetch(
-      "https://cookie-upgrade-api.vercel.app/api/upgrades",
+      "https://cookie-upgrade-api.vercel.app/api/upgrades"
     );
     const data = await response.json();
 
-    upgrades = Array.isArray(data) ? data : data.upgrades;
-
+    gameState.upgrades = Array.isArray(data) ? data : data.upgrades;
     renderUpgrades();
-  } catch (error) {
-    console.error("Error fetching upgrades:", error);
+  } catch (err) {
+    console.error("Error fetching upgrades:", err);
   }
 }
 
 function renderUpgrades() {
   upgradesDiv.innerHTML = "";
 
-  upgrades.forEach((upgrade) => {
+  gameState.upgrades.forEach((upgrade) => {
     const button = document.createElement("button");
     button.textContent = `${upgrade.name} (${upgrade.cost} cookies)`;
 
     button.addEventListener("click", () => {
-      if (cookies < upgrade.cost) return;
+      if (gameState.cookies < upgrade.cost) return;
 
-      cookies -= upgrade.cost;
-      cps += upgrade.value;
+      gameState.cookies -= upgrade.cost;
+      gameState.cps += upgrade.value;
 
       updateUI();
       saveGame();
@@ -77,7 +76,7 @@ function loadGame() {
 }
 
 cookieButton.addEventListener("click", () => {
-  cookies += clickPower;
+  gameState.cookies += gameState.clickPower;
   updateUI();
   saveGame();
 });
@@ -85,38 +84,42 @@ cookieButton.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   loadGame();
   updateUI();
+  fetchUpgrades();
 });
 
 setInterval(saveGame, 5000);
 
 const gameState = {
   cookies: 0,
-  cookiesPerSecond: 1
+  cps: 0,
+  clickPower: 1,
+  upgrades: []
 };
 
 const cookieCountEl = document.getElementById("cookie-count");
 
 function loadGame() {
-  const saved = localStorage.getItem("cookieGame");
-  if (saved) {
+  const saved = localStorage.getItem("cookieGameSave");
+  if (!saved) return;
+  
     Object.assign(gameState, JSON.parse(saved));
   }
-}
 
 function saveGame() {
-  localStorage.setItem("cookieGame", JSON.stringify(gameState));
+  localStorage.setItem(
+    "cookieGameSave",
+    JSON.stringify(gameState)
+ );
 }
 
 function updateUI() {
-  cookieCountEl.textContent = Math.floor(gameState.cookies);
+  cookieCount.textContent = Math.floor(gameState.cookies);
 }
 
 function gameTick() {
-  gameState.cookies += gameState.cookiesPerSecond;
+  gameState.cookies += gameState.cps;
   updateUI();
   saveGame();
 }
 
-loadGame();
-updateUI();
 setInterval(gameTick, 1000);
