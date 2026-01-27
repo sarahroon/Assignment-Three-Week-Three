@@ -59,39 +59,43 @@ function updateUI() {
 
 fetchUpgrades();
 
-let gameState = {
-  cookies: 0,
-  cookiesPerClick: 1,
-  cookiesPerSecond: 0,
-};
-
 function saveGame() {
+  const gameState = {
+    cookies,
+    cps,
+    clickPower,
+  };
+
   localStorage.setItem("cookieGameSave", JSON.stringify(gameState));
 }
 
 function loadGame() {
   const savedGame = localStorage.getItem("cookieGameSave");
 
-  if (savedGame) {
-    gameState = JSON.parse(savedGame);
-  }
+  if (!savedGame) return;
+
+  const gameState = JSON.parse(savedGame);
+
+  cookies = gameState.cookies ?? 0;
+  cps = gameState.cps ?? 0;
+  clickPower = gameState.clickPower ?? 1;
 }
 
-function updateUI() {
-  document.getElementById("cookieCount").textContent =
-    Math.floor(gameState.cookies);
-}
-
-document.getElementById("cookie").addEventListener("click", () => {
-  gameState.cookies += gameState.cookiesPerClick;
+cookieButton.addEventListener("click", () => {
+  cookies += clickPower;
   updateUI();
   saveGame();
 });
 
-setInterval(() => {
-  gameState.cookies += gameState.cookiesPerSecond;
+button.addEventListener("click", () => {
+  if (cookies < upgrade.cost) return;
+
+  cookies -= upgrade.cost;
+  cps += upgrade.value;
+
   updateUI();
-}, 1000);
+  saveGame();
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   loadGame();
