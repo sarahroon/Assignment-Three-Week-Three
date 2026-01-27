@@ -13,7 +13,6 @@ function gameTick() {
   gameState.cookies += gameState.cps;
   updateUI();
   saveGame();
-  renderUpgrades();
 }
 
 setInterval(gameTick, 1000);
