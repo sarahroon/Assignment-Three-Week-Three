@@ -30,6 +30,7 @@ function loadGame() {
   if (!saved) return;
 
   Object.assign(gameState, JSON.parse(saved));
+  updateUI();
 }
 
 cookieButton.addEventListener("click", () => {
@@ -67,6 +68,7 @@ function renderUpgrades() {
 
       updateUI();
       saveGame();
+      renderUpgrades();
     });
 
     upgradesDiv.appendChild(button);
@@ -75,6 +77,5 @@ function renderUpgrades() {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadGame();
-  updateUI();
   fetchUpgrades();
 });
