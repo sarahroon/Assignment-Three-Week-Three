@@ -7,11 +7,6 @@ const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
 const upgradesDiv = document.getElementById("upgrades");
 
-cookieButton.addEventListener("click", () => {
-  cookies += clickPower;
-  updateUI();
-});
-
 setInterval(() => {
   cookies += cps;
   updateUI();
@@ -83,16 +78,6 @@ function loadGame() {
 
 cookieButton.addEventListener("click", () => {
   cookies += clickPower;
-  updateUI();
-  saveGame();
-});
-
-button.addEventListener("click", () => {
-  if (cookies < upgrade.cost) return;
-
-  cookies -= upgrade.cost;
-  cps += upgrade.value;
-
   updateUI();
   saveGame();
 });
