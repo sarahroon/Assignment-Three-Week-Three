@@ -5,11 +5,6 @@ const gameState = {
   upgrades: []
 };
 
-let cookies = 0;
-let cps = 0;
-let clickPower = 1;
-let upgrades = [];
-
 const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
 const upgradesDiv = document.getElementById("upgrades");
@@ -23,7 +18,7 @@ function gameTick() {
 setInterval(gameTick, 1000);
 
 function updateUI() {
-  cookieCount.textContent = Math.floor(cookies);
+  cookieCount.textContent = Math.floor(gameState.cookies);
 }
 
 function saveGame() {
@@ -34,7 +29,7 @@ function loadGame() {
   const saved = localStorage.getItem("cookieGameSave");
   if (!saved) return;
 
-  Object.assign(gameState, JSON.parse(savedGame));
+  Object.assign(gameState, JSON.parse(saved));
 }
 
 cookieButton.addEventListener("click", () => {
@@ -74,7 +69,7 @@ function renderUpgrades() {
       saveGame();
     });
 
-      upgradesDiv.appendChild(button);
+    upgradesDiv.appendChild(button);
   });
 }
 
@@ -83,46 +78,3 @@ document.addEventListener("DOMContentLoaded", () => {
   updateUI();
   fetchUpgrades();
 });
-
-setInterval(() => {
-  cookies += cps;
-  updateUI();
-}, 1000);
-
-function updateUI() {
-  cookieCount.textContent = Math.floor(cookies);
-}
-
-fetchUpgrades();
-
-function saveGame() {
-  const gameState = {
-    cookies,
-    cps,
-    clickPower,
-  };
-
-  localStorage.setItem("cookieGameSave", JSON.stringify(gameState));
-}
-
-function loadGame() {
-  const savedGame = localStorage.getItem("cookieGameSave");
-
-  if (!savedGame) return;
-
-  const gameState = JSON.parse(savedGame);
-
-  cookies = gameState.cookies ?? 0;
-  cps = gameState.cps ?? 0;
-  clickPower = gameState.clickPower ?? 1;
-}
-
-setInterval(saveGame, 5000);
-
-const cookieCount = document.getElementById("cookieCount");
-const cookieButton = document.getElementById("cookieButton");
-const upgradesDiv = document.getElementById("upgrades");
-
-function updateUI() {
-  cookieCount.textContent = Math.floor(gameState.cookies);
-}
