@@ -82,3 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
   loadGame();
   fetchUpgrades();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadGame();
+  fetchUpgrades();
+});
