@@ -60,6 +60,8 @@ function renderUpgrades() {
     const button = document.createElement("button");
     button.textContent = `${upgrade.name} (${upgrade.cost} cookies)`;
 
+    button.disabled = gameState.cookies < upgrade.cost;
+
     button.addEventListener("click", () => {
       if (gameState.cookies < upgrade.cost) return;
 
