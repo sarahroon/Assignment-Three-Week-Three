@@ -37,6 +37,7 @@ cookieButton.addEventListener("click", () => {
   gameState.cookies += gameState.clickPower;
   updateUI();
   saveGame();
+  renderUpgrades();
 });
 
 async function fetchUpgrades() {
