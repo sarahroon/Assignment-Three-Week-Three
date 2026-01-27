@@ -20,10 +20,28 @@ function gameTick() {
   saveGame();
 }
 
-setInterval(() => {
-  cookies += cps;
+setInterval(gameTick, 1000);
+
+function updateUI() {
+  cookieCount.textContent = Math.floor(cookies);
+}
+
+function saveGame() {
+  localStorage.setItem("cookieGameSave", JSON.stringify(gameState));
+}
+
+function loadGame() {
+  const saved = localStorage.getItem("cookieGameSave");
+  if (!saved) return;
+
+  Object.assign(gameState, JSON.parse(savedGame));
+}
+
+cookieButton.addEventListener("click", () => {
+  gameState.cookies += gameState.clickPower;
   updateUI();
-}, 1000);
+  saveGame();
+});
 
 async function fetchUpgrades() {
   try {
@@ -32,10 +50,7 @@ async function fetchUpgrades() {
     );
     const data = await response.json();
 
-    gameState.upgrades = Array.isArray(data)
-      ? data
-      : data.upgrades;
-    
+    gameState.upgrades = Array.isArray(data) ? data : data.upgrades;
     renderUpgrades();
   } catch (err) {
     console.error("Error fetching upgrades:", err);
@@ -59,9 +74,20 @@ function renderUpgrades() {
       saveGame();
     });
 
-    upgradesDiv.appendChild(button);
+      upgradesDiv.appendChild(button);
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadGame();
+  updateUI();
+  fetchUpgrades();
+});
+
+setInterval(() => {
+  cookies += cps;
+  updateUI();
+}, 1000);
 
 function updateUI() {
   cookieCount.textContent = Math.floor(cookies);
@@ -91,40 +117,12 @@ function loadGame() {
   clickPower = gameState.clickPower ?? 1;
 }
 
-cookieButton.addEventListener("click", () => {
-  gameState.cookies += gameState.clickPower;
-  updateUI();
-  saveGame();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadGame();
-  updateUI();
-  fetchUpgrades();
-});
-
 setInterval(saveGame, 5000);
 
 const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
 const upgradesDiv = document.getElementById("upgrades");
 
-function loadGame() {
-  const saved = localStorage.getItem("cookieGameSave");
-  if (!saved) return;
-  
-  Object.assign(gameState, JSON.parse(saved));
-}
-
-function saveGame() {
-  localStorage.setItem(
-    "cookieGameSave",
-    JSON.stringify(gameState)
- );
-}
-
 function updateUI() {
   cookieCount.textContent = Math.floor(gameState.cookies);
 }
-
-setInterval(gameTick, 1000);
