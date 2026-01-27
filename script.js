@@ -19,7 +19,10 @@ async function fetchUpgrades() {
     );
     const data = await response.json();
 
-    gameState.upgrades = Array.isArray(data) ? data : data.upgrades;
+    gameState.upgrades = Array.isArray(data)
+      ? data
+      : data.upgrades;
+    
     renderUpgrades();
   } catch (err) {
     console.error("Error fetching upgrades:", err);
@@ -96,14 +99,16 @@ const gameState = {
   upgrades: []
 };
 
-const cookieCountEl = document.getElementById("cookie-count");
+const cookieCount = document.getElementById("cookieCount");
+const cookieButton = document.getElementById("cookieButton");
+const upgradesDiv = document.getElementById("upgrades");
 
 function loadGame() {
   const saved = localStorage.getItem("cookieGameSave");
   if (!saved) return;
   
-    Object.assign(gameState, JSON.parse(saved));
-  }
+  Object.assign(gameState, JSON.parse(saved));
+}
 
 function saveGame() {
   localStorage.setItem(
