@@ -17,6 +17,8 @@ function gameTick() {
 
 setInterval(gameTick, 1000);
 
+setInterval(saveGame, 5000);
+
 function updateUI() {
   cookieCount.textContent = Math.floor(gameState.cookies);
 }
