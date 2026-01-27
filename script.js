@@ -1,3 +1,10 @@
+const gameState = {
+  cookies: 0,
+  cps: 0,
+  clickPower: 1,
+  upgrades: []
+};
+
 let cookies = 0;
 let cps = 0;
 let clickPower = 1;
@@ -91,13 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 setInterval(saveGame, 5000);
-
-const gameState = {
-  cookies: 0,
-  cps: 0,
-  clickPower: 1,
-  upgrades: []
-};
 
 const cookieCount = document.getElementById("cookieCount");
 const cookieButton = document.getElementById("cookieButton");
