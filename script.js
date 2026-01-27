@@ -31,6 +31,7 @@ function loadGame() {
 
   Object.assign(gameState, JSON.parse(saved));
   updateUI();
+  renderUpgrades();
 }
 
 cookieButton.addEventListener("click", () => {
