@@ -58,3 +58,42 @@ function updateUI() {
 }
 
 fetchUpgrades();
+
+let gameState = {
+  cookies: 0,
+  cookiesPerClick: 1,
+  cookiesPerSecond: 0,
+};
+
+function saveGame() {
+  localStorage.setItem("cookieGameSave", JSON.stringify(gameState));
+}
+
+function loadGame() {
+  const savedGame = localStorage.getItem("cookieGameSave");
+
+  if (savedGame) {
+    gameState = JSON.parse(savedGame);
+  }
+}
+
+function updateUI() {
+  document.getElementById("cookieCount").textContent =
+    Math.floor(gameState.cookies);
+}
+
+document.getElementById("cookie").addEventListener("click", () => {
+  gameState.cookies += gameState.cookiesPerClick;
+  updateUI();
+  saveGame();
+});
+
+setInterval(() => {
+  gameState.cookies += gameState.cookiesPerSecond;
+  updateUI();
+}, 1000);
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadGame();
+  updateUI();
+});
